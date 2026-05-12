@@ -1,5 +1,6 @@
 const display = document.getElementById("display");
 const buttons = document.querySelectorAll(".btn");
+const themeToggle = document.getElementById("themeToggle");
 
 let currentValue = "0";
 
@@ -54,6 +55,34 @@ function calculate() {
     currentValue = "Erro";
   }
 }
+
+function applyTheme(theme) {
+  const isLightTheme = theme === "light";
+
+  document.body.classList.toggle("light-theme", isLightTheme);
+
+  themeToggle.textContent = isLightTheme ? "☀️" : "🌙";
+  themeToggle.title = isLightTheme
+    ? "Mudar para tema escuro"
+    : "Mudar para tema claro";
+
+  localStorage.setItem("calculatorTheme", theme);
+}
+
+function toggleTheme() {
+  const isLightTheme = document.body.classList.contains("light-theme");
+
+  if (isLightTheme) {
+    applyTheme("dark");
+  } else {
+    applyTheme("light");
+  }
+}
+
+const savedTheme = localStorage.getItem("calculatorTheme") || "dark";
+applyTheme(savedTheme);
+
+themeToggle.addEventListener("click", toggleTheme);
 
 buttons.forEach((button) => {
   button.addEventListener("click", () => {
